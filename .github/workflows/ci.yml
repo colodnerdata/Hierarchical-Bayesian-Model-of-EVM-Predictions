@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # One job per check, so a failure names what broke and the ruleset can
+  # require each check by name. The commands match docs/DEVELOPMENT.md and
+  # AGENTS.md exactly, so a local pass means the same as a CI pass.
+  check:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Lint
+            run: uv run --locked ruff check .
+          - name: Format
+            run: uv run --locked ruff format --check .
+          - name: Tests
+            run: uv run --locked pytest -m "not property"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.18"
+          enable-cache: true
+      - name: Install the Python version from .python-version
+        run: uv python install
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: ${{ matrix.name }}
+        run: ${{ matrix.run }}

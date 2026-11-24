@@ -1,0 +1,9 @@
+#!/bin/sh
+# Commit-time check: format check and lint only, so a commit takes seconds.
+# Tests run before work is reported done and in CI. This hook only checks;
+# it never rewrites files you have already reviewed.
+# Turned on by `poe setup`, and by the SessionStart hook for Claude Code.
+set -e
+
+uv run --locked ruff format --check .
+uv run --locked ruff check .
