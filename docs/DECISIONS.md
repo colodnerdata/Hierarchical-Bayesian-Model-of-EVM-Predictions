@@ -58,6 +58,21 @@ design change.
   one. See [Handover](HANDOVER.md).
 - **Source:** owner's decision.
 
+## 2026-11-26 — Two synthetic sources with separate jobs
+
+- **Status:** accepted.
+- **Context:** Parameter recovery needs data with known model parameters;
+  the review also asked for test data that the fitted model did not
+  generate.
+- **Decision:** This repository simulates its own ground-truth data from
+  the generative model. `synthetic_evm` stays a separate, independent
+  "realistic world" with no mode that simulates this model.
+- **Why:** Keeps the misspecification study honest. Rejected: a model mode
+  in `synthetic_evm` that exports true parameters, which would blur the
+  two roles.
+- **Revisit when:** not expected.
+- **Source:** owner's decision.
+
 ## 2026-11-26 — Parametric integration of unfinished projects deferred
 
 - **Status:** deferred.
