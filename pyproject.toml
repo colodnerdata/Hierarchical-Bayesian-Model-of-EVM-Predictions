@@ -3,11 +3,17 @@ requires = ["hatchling>=1.33.0,<2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "project-name"
+name = "hbm-evm"
 version = "0.1.0"
-description = "Replace with a one-sentence project description"
+description = "Hierarchical Bayesian forecasting of final cost and duration from incomplete earned value histories"
 readme = "README.md"
 requires-python = ">=3.12"
+keywords = [
+    "earned value management",
+    "cost estimating",
+    "Bayesian hierarchical model",
+    "forecasting",
+]
 dependencies = []
 
 [dependency-groups]
@@ -18,7 +24,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/project_name"]
+packages = ["src/hbm_evm"]
 
 [tool.poe.env]
 UV_LOCKED = "1"
